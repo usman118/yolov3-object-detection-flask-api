@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <link href="static/style.css" rel="stylesheet">
+    </head>
+  <script>
+
+        var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+        function required(){
+        var empt = document.form1.my_file.length==0
+        if (document.form1.my_file.value==0)
+        {
+        alert("Please input a Value");
+        return false;
+        }
+        else
+        {
+        // alert('Code has accepted : you can try another');
+        return true;
+        }
+        }
+        function Validate(oForm) {
+            var arrInputs = oForm.getElementsByTagName("input");
+            console.log(arrInputs.length)
+            for (var i = 0; i < arrInputs.length; i++) {
+                var oInput = arrInputs[i];
+                if (oInput.type == "file") {
+                    var sFileName = oInput.value;
+                    if (sFileName.length > 0) {
+                        var blnValid = false;
+                        for (var j = 0; j < _validFileExtensions.length; j++) {
+                            var sCurExtension = _validFileExtensions[j];
+                            if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                                blnValid = true;
+                                break;
+                            }
+                        }
+
+                        if (!blnValid )  {
+                            alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", "));
+                            return false;
+                        }
+                        else{
+                            return true;
+                        }
+
+                    }
+                }
+
+            }
+
+
+
+        }
+
+</script>
+    <body>    
+        <center>
+            <div class='cont'>
+                <h2>WELCOME<br> Yolo Detection</h2>
+                <p> After Submission Kindly allow prediction image to download from server </p>
+            </div>
+            
+        <form method="POST"  id="fileName" name="form1" action="{{url_for('home')}}" enctype="multipart/form-data" onsubmit=" return (( Validate(this)==1)&&( required() ==1));"><br>
+              <input type="file"  name="my_file" class='btn' accept="image/x-png,image/gif,image/jpeg"> <br><br><br>
+<!--            <input type="file" name='image' class='btn'><br><br><br>-->
+            <input type="submit" class='btn' title="Upload an image">
+        </form>
+
+
+    </center>
+
+    </body>
+</html>
